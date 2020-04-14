@@ -43,6 +43,28 @@ func longestPalindrome(s string) string {
 	sub := ""
 	tmp := ""
 	for i := 0; i < n; i++ {
+		left, right := i, i
+		for right < n - 1 && s[right] == s[right+1] {
+			right++
+		}
+		i = right
+		tmp = expandAroundCenter(s, left, right)
+		if len(tmp) > len(sub) {
+			sub = tmp
+		}
+	}
+	return sub
+}
+
+func longestPalindrome_ori(s string) string {
+	n := len(s)
+	if n <= 1 {
+		return s
+	}
+
+	sub := ""
+	tmp := ""
+	for i := 0; i < n; i++ {
 		tmp = expandAroundCenter(s, i, i)
 		if len(tmp) > len(sub) {
 			sub = tmp
