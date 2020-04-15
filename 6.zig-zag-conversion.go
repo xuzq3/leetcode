@@ -54,29 +54,29 @@
 
 // @lc code=start
 func convert(s string, numRows int) string {
-	if numRows == 1 {
+	if numRows <= 1 {
 		return s
 	}
 
 	n := len(s)
-	buf := new(bytes.Buffer)
+	b := make([]byte, 0, n)
 	round := numRows*2 - 2
 
 	for i := 0; i < numRows; i++ {
 		p := i
 		for p < n {
-			buf.WriteByte(s[p])
+			b = append(b, s[p])
 
 			if i != 0 && i != numRows-1 {
 				t := p + round - i*2
 				if t < n {
-					buf.WriteByte(s[t])
+					b = append(b, s[t])
 				}
 			}
 			p += round
 		}
 	}
-	return buf.String()
+	return string(b)
 }
 // @lc code=end
 
