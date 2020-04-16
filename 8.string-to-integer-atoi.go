@@ -92,6 +92,9 @@ func myAtoi(str string) int {
 	numStarted := false
 	negative := false
 
+	var maxInt int64 = 1<<31 - 1
+	var minInt int64 = -1 << 31
+
 	for _, b := range str {
 		if b == ' ' {
 			if numStarted {
@@ -112,25 +115,23 @@ func myAtoi(str string) int {
 			numStarted = true
 		} else if b >= '0' && b <= '9' {
 			numStarted = true
-			num = num*10 + int64(b-'0')
-			if num > math.MaxInt32 {
-				break
+			if !negative {
+				num = num*10 + int64(b-'0')
+				if num > maxInt {
+					num = maxInt
+					break
+				}
+			} else {
+				num = num*10 - int64(b-'0')
+				if num < minInt {
+					num = minInt
+					break
+				}
 			}
 		} else {
 			break
 		}
 	}
-	if negative {
-		num = 0 - num
-		if num < math.MinInt32 {
-			num = math.MinInt32
-		}
-	} else {
-		if num > math.MaxInt32 {
-			num = math.MaxInt32
-		}
-	}
-
 	return int(num)
 }
 // @lc code=end
