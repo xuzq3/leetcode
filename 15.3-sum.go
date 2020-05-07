@@ -41,6 +41,9 @@ func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 
 	for i := 0; i < len(nums)-2; i++ {
+		if nums[i] > 0 {
+			break
+		}
 		if i > 0 && nums[i] == nums[i-1] {
 			// to prevent the repeat
 			continue
