@@ -49,21 +49,22 @@
  *     Next *ListNode
  * }
  */
+
  func reverseKGroup(head *ListNode, k int) *ListNode {
 	var result *ListNode = &ListNode{
 		Next: head,
 	}
-	var pre *ListNode = result
-	var tmp *ListNode = head
-	var cur *ListNode = head
-	var next *ListNode
+	var pre *ListNode = result	// 短链前一个node
+	var end *ListNode = head	// 短链最后一个node
+	var cur *ListNode = head	// 当前node
+	var next *ListNode			// 下一个node
 	i := 0
 	for cur != nil {
 		// 短链就地反转
 		next = cur.Next
 		cur.Next = pre.Next
 		pre.Next = cur
-		tmp.Next = next
+		end.Next = next
 		cur = next
 
 		i++
@@ -73,17 +74,17 @@
 				pre = pre.Next
 				i--
 			}
-			tmp = pre.Next
+			end = pre.Next
 		}
 	}
 	cur = pre.Next
-	tmp = cur
+	end = cur
 	for cur != nil {
-		// 最后多出部分再次反转，回到正常顺序
+		// 最后长度不足k部分再次反转到正常顺序
 		next = cur.Next
 		cur.Next = pre.Next
 		pre.Next = cur
-		tmp.Next = next
+		end.Next = next
 		cur = next
 	}
 	return result.Next
