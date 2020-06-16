@@ -116,6 +116,7 @@ func isMatch(s string, p string) bool {
 	}
 	dp[len(s)][len(p)] = true
 
+	// 从后往前匹配
 	for i := len(s); i >= 0; i-- {
 		for j := len(p) - 1; j >= 0; j-- {
 			if p[j] != '*' {
