@@ -41,6 +41,8 @@
  */
 
 // @lc code=start
+
+// 直接比较target
 func search(nums []int, target int) int {
 	l := len(nums)
 	if l <= 0 {
@@ -72,6 +74,35 @@ func search(nums []int, target int) int {
 				left = mid + 1
 			}
 		}
+	}
+	return -1
+}
+
+// 算出偏移量后再二分查找
+func search(nums []int, target int) int {
+	l := len(nums)
+	if l <= 0 {
+		return -1
+	}
+
+	// 找出正常序列到变换后序列的偏移量offset
+	left, right := 0, l-1
+	for nums[left] > nums[right] && left < right {
+		mid := (right + left) / 2
+		if nums[mid] >= nums[left] {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	offset := left
+
+	// 根据偏移量进行二分查找
+	i := sort.Search(l, func(i int) bool {
+		return nums[(i+offset)%l] >= target
+	})
+	if i < l && nums[(i+offset)%l] == target {
+		return (i + offset) % l
 	}
 	return -1
 }
